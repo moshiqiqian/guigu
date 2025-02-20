@@ -1,0 +1,10 @@
+#include<bits/stdc++.h>
+#define IOS ios::sync_with_stdio(false),cin.tie(nullptr),cout.tie(nullptr);
+
+using namespace std;
+
+int main(){
+	IOS
+  cout << "你怎么知道我明日方舟十连出金？"；
+	return 0;
+}
