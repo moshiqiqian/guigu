@@ -1,0 +1,6 @@
+num1 = float(input("请输入第一个数字: "))
+num2 = float(input("请输入第二个数字: "))
+result = num1 + num2
+print(f"{num1} 与 {num2} 相加的结果是: {result}")
+
+##用于两个数相加
