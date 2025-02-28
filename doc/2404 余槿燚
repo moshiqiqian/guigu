@@ -1,0 +1,82 @@
+C语言程序：文本文件内容统计工具
+功能简介：
+统计指定文本文件中的字符数、单词数和行数。
+程序代码：file_statistics.c
+c
+复制
+#include <stdio.h>
+#include <ctype.h> // 用于字符判断函数
+
+// 函数声明
+void countFileStatistics(const char* filename, int* charCount, int* wordCount, int* lineCount);
+
+int main() {
+    char filename[100];
+    int charCount = 0, wordCount = 0, lineCount = 0;
+
+    printf("请输入要统计的文件名（带扩展名）：");
+    scanf("%99s", filename); // 读取文件名
+
+    countFileStatistics(filename, &charCount, &wordCount, &lineCount);
+
+    printf("\n文件统计结果：\n");
+    printf("字符数：%d\n", charCount);
+    printf("单词数：%d\n", wordCount);
+    printf("行数：%d\n", lineCount);
+
+    return 0;
+}
+
+void countFileStatistics(const char* filename, int* charCount, int* wordCount, int* lineCount) {
+    FILE* file = fopen(filename, "r"); // 打开文件
+    if (file == NULL) {
+        perror("无法打开文件");
+        return;
+    }
+
+    int c, inWord = 0; // inWord用于判断是否在单词内
+
+    while ((c = fgetc(file)) != EOF) { // 逐字符读取文件
+        (*charCount)++; // 字符计数
+
+        if (isspace(c)) { // 如果是空白字符
+            inWord = 0; // 不在单词内
+        } else if (!inWord) { // 如果之前不在单词内
+            inWord = 1; // 进入单词
+            (*wordCount)++; // 单词计数
+        }
+
+        if (c == '\n') { // 换行符
+            (*lineCount)++; // 行计数
+        }
+    }
+
+    fclose(file); // 关闭文件
+}
+1. 配置环境
+确保你的计算机上安装了C语言编译器（如GCC）。如果没有安装，可以通过以下方式安装：
+Windows：安装MinGW或TDM-GCC。
+macOS/Linux：通过终端运行以下命令安装GCC：
+bash
+复制
+sudo apt-get install gcc    # 对于Debian/Ubuntu系统
+sudo yum install gcc        # 对于Red Hat/CentOS系统
+brew install gcc            # 对于macOS（需要安装Homebrew）
+2. 编译程序
+将上述代码保存为file_statistics.c文件。打开终端或命令提示符，导航到文件所在目录，运行以下命令进行编译：
+bash
+复制
+gcc file_statistics.c -o file_statistics
+这将生成一个可执行文件file_statistics（Windows下为file_statistics.exe）。
+3. 运行程序
+在终端或命令提示符中运行编译后的程序：
+bash
+复制
+./file_statistics    # macOS/Linux
+file_statistics.exe  # Windows
+4. 使用方法
+程序运行后，会提示用户输入一个文本文件的名称（包括扩展名）。程序会读取该文件，并统计其中的字符数、单词数和行数，然后将结果输出到终端。
+5. 注意事项
+确保输入的文件名正确，且文件存在于程序运行的目录下。
+如果文件不存在或无法打开，程序会输出错误信息。
+单词的定义是：由非空白字符组成的连续序列。
